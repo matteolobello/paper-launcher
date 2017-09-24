@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -245,21 +246,30 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
             mDockViewPager.scrollTo((int) (mDockViewPager.getWidth() * slideOffset), 0);
         }
 
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mSearchBarCardView.getLayoutParams();
+        FrameLayout.LayoutParams searchBarCardViewLayoutParams = (FrameLayout.LayoutParams) mSearchBarCardView.getLayoutParams();
 
-        layoutParams.topMargin = (int) (DpPxUtils.dpToPx(this, 32)
+        searchBarCardViewLayoutParams.topMargin = (int) (DpPxUtils.dpToPx(this, 32)
                 - DpPxUtils.dpToPx(this, 8) * slideOffset);
-        layoutParams.leftMargin = (int) (DpPxUtils.dpToPx(this, 8)
+        searchBarCardViewLayoutParams.leftMargin = (int) (DpPxUtils.dpToPx(this, 8)
                 - DpPxUtils.dpToPx(this, 8) * slideOffset);
-        layoutParams.rightMargin = (int) (DpPxUtils.dpToPx(this, 8)
+        searchBarCardViewLayoutParams.rightMargin = (int) (DpPxUtils.dpToPx(this, 8)
                 - DpPxUtils.dpToPx(this, 8) * slideOffset);
-        layoutParams.height = (int) (DpPxUtils.dpToPx(this, 56)
+        searchBarCardViewLayoutParams.height = (int) (DpPxUtils.dpToPx(this, 56)
                 + DpPxUtils.dpToPx(this, 10) * slideOffset);
 
-        mSearchBarCardView.setLayoutParams(layoutParams);
-        mSearchBarCardView.setCardElevation(
-                DpPxUtils.dpToPx(this, 4) -
-                        DpPxUtils.dpToPx(this, 4) * slideOffset);
+        mSearchBarCardView.setLayoutParams(searchBarCardViewLayoutParams);
+
+        float searchBarCardViewElevation = DpPxUtils.dpToPx(this, 4)
+                - DpPxUtils.dpToPx(this, 4) * slideOffset;
+        mSearchBarCardView.setCardElevation(searchBarCardViewElevation);
+
+        float searchBarCardViewRadius = DpPxUtils.dpToPx(this, 2)
+                - DpPxUtils.dpToPx(this, 2) * slideOffset;
+        // CardView bug, if radius equals to 0.xxx, the alpha will be changed
+        mSearchBarCardView.setRadius(
+                String.valueOf(searchBarCardViewRadius).charAt(0) == '0'
+                        ? 0
+                        : searchBarCardViewRadius);
 
         mGoogleArrowImageView.animate()
                 .setDuration(0)
