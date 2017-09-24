@@ -50,8 +50,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LauncherActivity extends AppCompatActivity
-        implements SlidingUpPanelLayout.PanelSlideListener, HomeButtonPressWatcher.OnHomePressedListener, AppListUpdateWatcher.OnMustUpdateAppListListener {
+public class LauncherActivity extends AppCompatActivity implements
+        SlidingUpPanelLayout.PanelSlideListener, HomeButtonPressWatcher.OnHomePressedListener,
+        AppListUpdateWatcher.OnMustUpdateAppListListener {
 
     /**
      * The number of columns of the dock and app drawer

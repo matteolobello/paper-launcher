@@ -46,7 +46,7 @@ public class AppListUpdateWatcher {
     class MustUpdateAppListReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
+            mListener.onMustUpdateAppList();
         }
     }
 }
