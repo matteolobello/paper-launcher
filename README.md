@@ -4,7 +4,7 @@
 <br>
 This is an Android Launcher app based on Eduardo Pratti's mockup and made from scratch.
 <br>
-The Launcher is only tested on my device (Nexus 5X running Android Oreo 8.0), but should work on <b>every</b> Android Jelly Bean 4.3 phone.
+The Launcher is only tested on my device (Nexus 5X running Android Oreo 8.0), but should work on <b>every</b> Android Jelly Bean 4.3+ phone.
 <br>
 The launcher includes basically 0 customization, you can only change wallpaper and the dock icons, as it's only been an experiment to me, trying to do my best with smooth <b>animation</b> and <b>transitions</b>, bringing a new <b>modern</b> look to my phone.
 <br>
