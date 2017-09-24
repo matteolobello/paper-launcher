@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="86dp"
+    android:layout_gravity="center"
+    android:background="@android:color/white"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:weightSum="5">
+
+    <RelativeLayout
+        android:id="@+id/first_icon_row"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingEnd="4dp"
+        android:paddingStart="8dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/first_app_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="8dp"
+            android:paddingTop="25dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher"
+            android:translationY="-12dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/first_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="12sp"
+            tools:text="App Name" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/second_icon_row"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingEnd="4dp"
+        android:paddingStart="8dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/second_app_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="8dp"
+            android:paddingTop="25dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher"
+            android:translationY="-12dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/second_app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="12sp"
+            tools:text="App Name" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/third_icon_row"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingEnd="4dp"
+        android:paddingStart="8dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/third_app_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="8dp"
+            android:paddingTop="24dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher"
+            android:translationY="-12dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/third_app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="12sp"
+            tools:text="App Name" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fourth_icon_row"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingEnd="4dp"
+        android:paddingStart="8dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/fourth_app_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="8dp"
+            android:paddingTop="24dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher"
+            android:translationY="-12dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/fourth_app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="12sp"
+            tools:text="App Name" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fifth_icon_row"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingEnd="4dp"
+        android:paddingStart="8dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/fifth_app_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingTop="24dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher"
+            android:translationY="-12dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/fifth_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="12sp"
+            tools:text="App Name" />
+
+    </RelativeLayout>
+
+</LinearLayout>

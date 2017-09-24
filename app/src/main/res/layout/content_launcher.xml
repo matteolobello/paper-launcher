@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/wallpaper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/scrim" />
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="89dp"
+        android:gravity="bottom"
+        app:umanoFadeColor="@android:color/transparent"
+        app:umanoPanelHeight="68dp"
+        app:umanoScrollableView="@+id/apps_recycler_view"
+        app:umanoShadowHeight="4dp">
+
+        <com.matteolobello.launcher.ui.view.WorkspaceLayout
+            android:id="@+id/workspace"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:gravity="center|top"
+            android:orientation="horizontal">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/dock_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_gravity="center" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/apps_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/dock_view_pager"
+                android:clipToPadding="false"
+                android:paddingBottom="8dp" />
+
+            <View
+                android:id="@+id/dock_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorShadow" />
+
+        </RelativeLayout>
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/pill_wrapper"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/google_arrow"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="4dp"
+                        android:alpha="0.75"
+                        app:srcCompat="@drawable/ic_arrow" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/google_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="4dp"
+                        android:layout_toEndOf="@id/google_arrow"
+                        app:srcCompat="@drawable/ic_google_logo" />
+
+                    <View
+                        android:id="@+id/pill_divider"
+                        android:layout_width="1dp"
+                        android:layout_height="36dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_toEndOf="@id/google_icon"
+                        android:alpha="0.20"
+                        android:background="@android:color/black" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/search_apps_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@id/pill_wrapper"
+                    android:layout_toStartOf="@+id/google_mic"
+                    android:alpha="1.0"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/search_apps_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="16dp"
+                        android:alpha="0.0"
+                        android:text="@string/apps"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:alpha="1.0" />
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/google_mic"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:srcCompat="@drawable/ic_google_mic" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </FrameLayout>
+
+
+</RelativeLayout>

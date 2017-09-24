@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/scrim"
+        android:rotation="180" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/shortcuts_app_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/shortcuts_app_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/shortcuts_app_icon"
+            android:layout_toStartOf="@id/shortcuts_app_info"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/shortcuts_app_info"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp"
+            android:foreground="?android:selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_info_outline"
+            app:tint="#696969" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorShadow" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shortcuts_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorShadow" />
+
+</LinearLayout>

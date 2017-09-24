@@ -1,0 +1,14 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:colorEdgeEffect" tools:ignore="NewApi">#FF757575</item>
+        <item name="android:colorPrimary" tools:ignore="NewApi">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark" tools:ignore="NewApi">@color/colorPrimaryDark</item>
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/colorAccent</item>
+    </style>
+
+</resources>
