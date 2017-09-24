@@ -3,10 +3,7 @@ package com.matteolobello.launcher.ui.activity;
 import android.animation.ArgbEvaluator;
 import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
@@ -21,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +29,8 @@ import com.matteolobello.launcher.R;
 import com.matteolobello.launcher.data.loader.ApplicationInfoLoader;
 import com.matteolobello.launcher.data.loader.IconRowsLoader;
 import com.matteolobello.launcher.data.preference.MostLaunchedHelper;
+import com.matteolobello.launcher.data.watcher.AppListUpdateWatcher;
+import com.matteolobello.launcher.data.watcher.HomeButtonPressWatcher;
 import com.matteolobello.launcher.ui.adapter.fragment.DockViewPagerAdapter;
 import com.matteolobello.launcher.ui.adapter.recyclerview.AllAppsRecyclerViewAdapter;
 import com.matteolobello.launcher.ui.adapter.recyclerview.ShortcutsRecyclerViewAdapter;
@@ -52,7 +50,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LauncherActivity extends AppCompatActivity implements SlidingUpPanelLayout.PanelSlideListener {
+public class LauncherActivity extends AppCompatActivity
+        implements SlidingUpPanelLayout.PanelSlideListener, HomeButtonPressWatcher.OnHomePressedListener, AppListUpdateWatcher.OnMustUpdateAppListListener {
 
     /**
      * The number of columns of the dock and app drawer
@@ -63,17 +62,6 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
      * The wallpaper select request code
      */
     public static final int WALLPAPER_SELECT_INTENT_CODE = 505;
-
-    /**
-     * The IntentFilter of the list update BroadcastReceiver
-     */
-    private static final IntentFilter APP_LIST_UPDATE_INTENT_FILTER = new IntentFilter();
-
-    static {
-        APP_LIST_UPDATE_INTENT_FILTER.addAction(Intent.ACTION_PACKAGE_ADDED);
-        APP_LIST_UPDATE_INTENT_FILTER.addAction(Intent.ACTION_PACKAGE_INSTALL);
-        APP_LIST_UPDATE_INTENT_FILTER.addDataScheme("package");
-    }
 
     /**
      * The full List of apps
@@ -117,16 +105,6 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
      * Used to handle the most launched apps
      */
     private MostLaunchedHelper mMostLaunchedHelper;
-
-    /**
-     * Setup icons when a package is installed or uninstalled
-     */
-    private final BroadcastReceiver mAppListUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            setupUi();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +160,7 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
         }
 
         mGoogleArrowImageView.setOnClickListener(view -> {
-            if (isShowingAppDrawer()) {
+            if (isAppDrawerOpened()) {
                 mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
@@ -190,7 +168,7 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
         mGoogleMicImageView.setOnClickListener(IntentUtil::startGoogleVoiceRecognitionActivity);
 
         mSearchAppsWrapperView.setOnClickListener(view -> {
-            if (!isShowingAppDrawer()) {
+            if (!isAppDrawerOpened()) {
                 IntentUtil.startGoogleSearchActivity(view);
             }
         });
@@ -221,11 +199,13 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
 
         updateWallpaper();
 
-        try {
-            registerReceiver(mAppListUpdateReceiver, APP_LIST_UPDATE_INTENT_FILTER);
-        } catch (Exception ignored) {
-            // Do nothing, probably the Receiver was already registered
-        }
+        HomeButtonPressWatcher homeButtonPressWatcher = new HomeButtonPressWatcher(this);
+        homeButtonPressWatcher.setOnHomePressedListener(this);
+        homeButtonPressWatcher.startWatch();
+
+        AppListUpdateWatcher appListUpdateWatcher = new AppListUpdateWatcher(this);
+        appListUpdateWatcher.setOnMustUpdateAppListListener(this);
+        appListUpdateWatcher.startWatch();
     }
 
     @Override
@@ -307,6 +287,27 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
     }
 
     @Override
+    public void onHomePressed() {
+        if (isAppDrawerOpened()) {
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        }
+
+        if (mBottomSheetBehavior.getState() == BottomSheetBehaviorV2.STATE_EXPANDED) {
+            mBottomSheetBehavior.setState(BottomSheetBehaviorV2.STATE_COLLAPSED);
+        }
+    }
+
+    @Override
+    public void onHomeLongPressed() {
+        // Do nothing
+    }
+
+    @Override
+    public void onMustUpdateAppList() {
+        setupUi();
+    }
+
+    @Override
     public void onBackPressed() {
         if (mBottomSheetBehavior.getState() != BottomSheetBehaviorV2.STATE_COLLAPSED) {
             mBottomSheetBehavior.setState(BottomSheetBehaviorV2.STATE_COLLAPSED);
@@ -318,7 +319,7 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
             return;
         }
 
-        if (isShowingAppDrawer()) {
+        if (isAppDrawerOpened()) {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
     }
@@ -429,14 +430,6 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
         CustomizationDialog.show(this);
     }
 
-    private void updateWallpaper() {
-        mWallpaperImageView.setImageDrawable(WallpaperManager.getInstance(this).getDrawable());
-    }
-
-    private boolean isShowingAppDrawer() {
-        return mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED;
-    }
-
     @SuppressLint({"PrivateApi", "WrongConstant"})
     public void expandStatusBar() {
         try {
@@ -446,5 +439,13 @@ public class LauncherActivity extends AppCompatActivity implements SlidingUpPane
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void updateWallpaper() {
+        mWallpaperImageView.setImageDrawable(WallpaperManager.getInstance(this).getDrawable());
+    }
+
+    private boolean isAppDrawerOpened() {
+        return mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED;
     }
 }

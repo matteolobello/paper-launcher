@@ -71,7 +71,7 @@ public class MostLaunchedHelper {
     }
 
     @SuppressWarnings("unchecked")
-    private List<Map.Entry<String,Integer>> getAllEntries(Context context) {
+    private List<Map.Entry<String, Integer>> getAllEntries(Context context) {
         final SharedPreferences preferences = getSharedPreferences(context);
         final Map<String, ?> allPreferences = preferences.getAll();
 
