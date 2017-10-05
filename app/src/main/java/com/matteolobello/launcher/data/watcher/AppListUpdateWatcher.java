@@ -1,12 +1,13 @@
 package com.matteolobello.launcher.data.watcher;
 
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-public class AppListUpdateWatcher {
+import com.matteolobello.launcher.data.watcher.base.BaseEventWatcher;
+
+public class AppListUpdateWatcher implements BaseEventWatcher {
 
     private Context mContext;
     private IntentFilter mFilter;
@@ -18,7 +19,8 @@ public class AppListUpdateWatcher {
 
         mFilter = new IntentFilter();
         mFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
-        mFilter.addAction(Intent.ACTION_PACKAGE_INSTALL);
+        mFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        mFilter.addAction(Intent.ACTION_PACKAGE_CHANGED);
         mFilter.addDataScheme("package");
     }
 
@@ -27,13 +29,15 @@ public class AppListUpdateWatcher {
         mReceiver = new MustUpdateAppListReceiver();
     }
 
-    public void startWatch() {
+    @Override
+    public void startWatching() {
         if (mReceiver != null) {
             mContext.registerReceiver(mReceiver, mFilter);
         }
     }
 
-    public void stopWatch() {
+    @Override
+    public void stopWatching() {
         if (mReceiver != null) {
             mContext.unregisterReceiver(mReceiver);
         }
@@ -43,7 +47,8 @@ public class AppListUpdateWatcher {
         void onMustUpdateAppList();
     }
 
-    class MustUpdateAppListReceiver extends BroadcastReceiver {
+    private class MustUpdateAppListReceiver extends BroadcastReceiver {
+
         @Override
         public void onReceive(Context context, Intent intent) {
             mListener.onMustUpdateAppList();

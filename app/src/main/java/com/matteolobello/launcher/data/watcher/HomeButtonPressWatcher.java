@@ -1,12 +1,13 @@
 package com.matteolobello.launcher.data.watcher;
 
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-public class HomeButtonPressWatcher {
+import com.matteolobello.launcher.data.watcher.base.BaseEventWatcher;
+
+public class HomeButtonPressWatcher implements BaseEventWatcher {
 
     private Context mContext;
     private IntentFilter mFilter;
@@ -23,13 +24,15 @@ public class HomeButtonPressWatcher {
         mReceiver = new HomeButtonPressReceiver();
     }
 
-    public void startWatch() {
+    @Override
+    public void startWatching() {
         if (mReceiver != null) {
             mContext.registerReceiver(mReceiver, mFilter);
         }
     }
 
-    public void stopWatch() {
+    @Override
+    public void stopWatching() {
         if (mReceiver != null) {
             mContext.unregisterReceiver(mReceiver);
         }
@@ -41,12 +44,12 @@ public class HomeButtonPressWatcher {
         void onHomeLongPressed();
     }
 
-    class HomeButtonPressReceiver extends BroadcastReceiver {
+    private class HomeButtonPressReceiver extends BroadcastReceiver {
 
-        final String SYSTEM_DIALOG_REASON_KEY = "reason";
-        final String SYSTEM_DIALOG_REASON_GLOBAL_ACTIONS = "globalactions";
-        final String SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps";
-        final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
+        private static final String SYSTEM_DIALOG_REASON_KEY = "reason";
+        private static final String SYSTEM_DIALOG_REASON_GLOBAL_ACTIONS = "globalactions";
+        private static final String SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps";
+        private static final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
 
         @Override
         public void onReceive(Context context, Intent intent) {

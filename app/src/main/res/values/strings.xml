@@ -3,4 +3,9 @@
     <string name="wallpaper">Wallpaper</string>
     <string name="edit_dock_icons">Edit dock icons</string>
     <string name="apps">Apps</string>
+    <string name="all_icons">All icons</string>
+    <string name="icon_pack">Icon Pack</string>
+    <string name="default_icon_pack">Default</string>
+    <string name="icon_pack_applied">Icon Pack applied, select Paper Launcher to continue, please</string>
+    <string name="default_launcher">Set as default Launcher</string>
 </resources>

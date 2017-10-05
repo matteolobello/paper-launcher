@@ -1,7 +1,7 @@
 package com.matteolobello.launcher.ui.adapter.recyclerview;
 
 import android.content.pm.ApplicationInfo;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class AllAppsRecyclerViewAdapter extends RecyclerView.Adapter<AllAppsRecyclerViewAdapter.RowOfIconsViewHolder> {
 
-    private final HashMap<String, Drawable> drawableHashMap = new HashMap<>();
+    private final HashMap<String, Bitmap> iconHashMap = new HashMap<>();
 
     private final LauncherActivity mLauncherActivity;
     private final List<IconRow> mIconRows;
@@ -127,17 +127,15 @@ public class AllAppsRecyclerViewAdapter extends RecyclerView.Adapter<AllAppsRecy
 
             textView.setText(applicationInfo.loadLabel(holder.itemView.getContext().getPackageManager()));
 
-            if (drawableHashMap.containsKey(applicationInfo.packageName)) {
-                imageView.setImageDrawable(drawableHashMap.get(applicationInfo.packageName));
+            if (iconHashMap.containsKey(applicationInfo.packageName)) {
+                imageView.setImageBitmap(iconHashMap.get(applicationInfo.packageName));
                 continue;
             }
 
             String packageName = applicationInfo.packageName;
-            Drawable icon = IconUtil.setIconOnImageView(imageView, applicationInfo);
+            Bitmap icon = IconUtil.setIconOnImageView(mLauncherActivity, imageView, applicationInfo);
 
-            drawableHashMap.put(packageName, icon);
-
-            imageView.setImageDrawable(icon);
+            iconHashMap.put(packageName, icon);
         }
     }
 

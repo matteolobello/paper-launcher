@@ -10,7 +10,9 @@ import android.content.pm.ShortcutInfo;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -27,7 +29,10 @@ import android.widget.TextView;
 
 import com.matteolobello.launcher.R;
 import com.matteolobello.launcher.data.loader.ApplicationInfoLoader;
+import com.matteolobello.launcher.data.loader.IconPackLoader;
 import com.matteolobello.launcher.data.loader.IconRowsLoader;
+import com.matteolobello.launcher.data.model.IconPack;
+import com.matteolobello.launcher.data.preference.IconPackSelectHelper;
 import com.matteolobello.launcher.data.preference.MostLaunchedHelper;
 import com.matteolobello.launcher.data.watcher.AppListUpdateWatcher;
 import com.matteolobello.launcher.data.watcher.HomeButtonPressWatcher;
@@ -48,7 +53,9 @@ import com.matteolobello.launcher.util.SystemBarUtil;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LauncherActivity extends AppCompatActivity implements
         SlidingUpPanelLayout.PanelSlideListener, HomeButtonPressWatcher.OnHomePressedListener,
@@ -103,6 +110,11 @@ public class LauncherActivity extends AppCompatActivity implements
     private BottomSheetBehaviorV2 mBottomSheetBehavior;
 
     /**
+     * Used to handle IconPacks
+     */
+    private IconPack mCurrentIconPack;
+
+    /**
      * Used to handle the most launched apps
      */
     private MostLaunchedHelper mMostLaunchedHelper;
@@ -137,6 +149,18 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void setupUi() {
+        mApplicationInfoList = ApplicationInfoLoader.loadAppList(this);
+
+        HashMap<String, IconPack> iconPackHashMap = IconPackLoader.getAvailableIconPacks(this, false);
+        String iconPackPackageName = IconPackSelectHelper.get().getIconPack(this);
+        if (iconPackPackageName != null) {
+            for (Map.Entry<String, IconPack> entry : iconPackHashMap.entrySet()) {
+                if (entry.getKey().equals(iconPackPackageName)) {
+                    mCurrentIconPack = entry.getValue();
+                }
+            }
+        }
+
         mParentCoordinatorLayout.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
         CoordinatorLayout.LayoutParams params =
@@ -146,18 +170,13 @@ public class LauncherActivity extends AppCompatActivity implements
 
         mBottomSheetBehavior = BottomSheetBehaviorV2.from(mBottomSheetView);
 
-        mApplicationInfoList = ApplicationInfoLoader.loadAppList(this);
+        SystemBarUtil.setFullyTransparentStatusBar(this);
+        if (SDKUtil.AT_LEAST_O) {
+            // Avoid setting white color to NavigationBar on Lollipop
+            // as SoftKeys wouldn't be visible (white on white)
+            SystemBarUtil.setNavigationBarColor(this, Color.WHITE);
 
-        if (SDKUtil.AT_LEAST_LOLLIPOP) {
-            SystemBarUtil.setFullyTransparentStatusBar(this);
-
-            if (SDKUtil.AT_LEAST_O) {
-                // Avoid setting white color to NavigationBar on Lollipop
-                // as SoftKeys wouldn't be visible (white on white)
-                SystemBarUtil.setNavigationBarColor(this, Color.WHITE);
-
-                SystemBarUtil.enableDarkNavigationBarIcons(this);
-            }
+            SystemBarUtil.enableDarkNavigationBarIcons(this);
         }
 
         mGoogleArrowImageView.setOnClickListener(view -> {
@@ -179,16 +198,6 @@ public class LauncherActivity extends AppCompatActivity implements
 
         mSlidingUpPanelLayout.addPanelSlideListener(this);
 
-        mAllAppsRecyclerViewAdapter = new AllAppsRecyclerViewAdapter(this,
-                IconRowsLoader.loadIconRows(mApplicationInfoList));
-
-        mAllAppsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAllAppsRecyclerView.setItemViewCacheSize(30);
-        mAllAppsRecyclerView.setDrawingCacheEnabled(true);
-        mAllAppsRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        mAllAppsRecyclerView.setHasFixedSize(true);
-        mAllAppsRecyclerView.setAdapter(mAllAppsRecyclerViewAdapter);
-
         mShortcutsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mShortcutsRecyclerView.setItemViewCacheSize(30);
         mShortcutsRecyclerView.setDrawingCacheEnabled(true);
@@ -198,15 +207,24 @@ public class LauncherActivity extends AppCompatActivity implements
         mMostLaunchedHelper = MostLaunchedHelper.get();
         mMostLaunchedHelper.setupIfNeeded(this, mApplicationInfoList);
 
+
+        mAllAppsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAllAppsRecyclerView.setItemViewCacheSize(30);
+        mAllAppsRecyclerView.setDrawingCacheEnabled(true);
+        mAllAppsRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        mAllAppsRecyclerView.setHasFixedSize(true);
+
+        setAppDrawerData();
+
         updateWallpaper();
 
         HomeButtonPressWatcher homeButtonPressWatcher = new HomeButtonPressWatcher(this);
         homeButtonPressWatcher.setOnHomePressedListener(this);
-        homeButtonPressWatcher.startWatch();
+        homeButtonPressWatcher.startWatching();
 
         AppListUpdateWatcher appListUpdateWatcher = new AppListUpdateWatcher(this);
         appListUpdateWatcher.setOnMustUpdateAppListListener(this);
-        appListUpdateWatcher.startWatch();
+        appListUpdateWatcher.startWatching();
     }
 
     @Override
@@ -305,7 +323,7 @@ public class LauncherActivity extends AppCompatActivity implements
 
     @Override
     public void onMustUpdateAppList() {
-        setupUi();
+        setAppDrawerData();
     }
 
     @Override
@@ -381,7 +399,8 @@ public class LauncherActivity extends AppCompatActivity implements
 
         homeScreenDockFragment.iterateOverDockIcons((dockItem, dockIconColumn) -> {
             if (dockIconColumn == column) {
-                IconUtil.setIconOnImageView(((ImageView) ((ViewGroup) dockItem).getChildAt(0)), applicationInfo);
+                IconUtil.setIconOnImageView(this,
+                        ((ImageView) ((ViewGroup) dockItem).getChildAt(0)), applicationInfo);
             }
         });
     }
@@ -404,7 +423,7 @@ public class LauncherActivity extends AppCompatActivity implements
             return;
         }
 
-        IconUtil.setIconOnImageView(mBottomSheetAppImageView, applicationInfo);
+        IconUtil.setIconOnImageView(this, mBottomSheetAppImageView, applicationInfo);
 
         mBottomSheetAppTextView.setText(applicationInfo.loadLabel(getPackageManager()));
 
@@ -423,11 +442,20 @@ public class LauncherActivity extends AppCompatActivity implements
         mBottomSheetBehavior.setState(BottomSheetBehaviorV2.STATE_EXPANDED);
     }
 
+    public IconPack getCurrentIconPack() {
+        return mCurrentIconPack;
+    }
+
     public void openAppDrawer() {
         mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
     public void showWorkspaceEditDialog() {
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            vibrator.vibrate(25);
+        }
+
         CustomizationDialog.show(this);
     }
 
@@ -446,7 +474,30 @@ public class LauncherActivity extends AppCompatActivity implements
         mWallpaperImageView.setImageDrawable(WallpaperManager.getInstance(this).getDrawable());
     }
 
+    private void setAppDrawerData() {
+        new UpdateAppDrawerAsyncTask().execute();
+    }
+
     private boolean isAppDrawerOpened() {
         return mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED;
+    }
+
+    private class UpdateAppDrawerAsyncTask extends AsyncTask<Void, Void, List<ApplicationInfo>> {
+
+        @Override
+        protected List<ApplicationInfo> doInBackground(Void... voids) {
+            return ApplicationInfoLoader.loadAppList(getApplicationContext());
+        }
+
+        @Override
+        protected void onPostExecute(List<ApplicationInfo> applicationInfoList) {
+            super.onPostExecute(applicationInfoList);
+
+            mApplicationInfoList = applicationInfoList;
+
+            mAllAppsRecyclerViewAdapter = new AllAppsRecyclerViewAdapter(LauncherActivity.this,
+                    IconRowsLoader.loadIconRows(mApplicationInfoList));
+            mAllAppsRecyclerView.setAdapter(mAllAppsRecyclerViewAdapter);
+        }
     }
 }

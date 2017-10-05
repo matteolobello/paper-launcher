@@ -93,7 +93,8 @@ public class HomeScreenDockFragment extends DockFragment {
 
                 View dockItemView = getItemAtColumn(dockIcon.getColumn());
                 dockItemView.post(() -> {
-                    IconUtil.setIconOnImageView(((ImageView) ((ViewGroup) dockItemView).getChildAt(0)), applicationInfo);
+                    IconUtil.setIconOnImageView(getLauncherActivity(),
+                            ((ImageView) ((ViewGroup) dockItemView).getChildAt(0)), applicationInfo);
 
                     dockItemView.setOnClickListener(view -> IntentUtil.launchApp(view, packageName));
 

@@ -36,7 +36,8 @@ public class SelectDockIconRecyclerViewAdapter extends RecyclerView.Adapter<Sele
         ApplicationInfo applicationInfo = mApplicationInfoArrayList.get(position);
 
         holder.appTitleTextView.setText(applicationInfo.loadLabel(holder.itemView.getContext().getPackageManager()));
-        IconUtil.setIconOnImageView(holder.appIconImageView, applicationInfo);
+        IconUtil.setIconOnImageView(mSelectDockIconDialog.getLauncherActivity(),
+                holder.appIconImageView, applicationInfo);
 
         holder.itemView.setOnClickListener(view -> mSelectDockIconDialog.onAppSelected(applicationInfo));
     }

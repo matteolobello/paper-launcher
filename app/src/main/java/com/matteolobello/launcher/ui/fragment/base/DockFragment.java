@@ -13,6 +13,7 @@ import com.matteolobello.launcher.R;
 import com.matteolobello.launcher.data.loader.ShortcutsLoader;
 import com.matteolobello.launcher.data.preference.MostLaunchedHelper;
 import com.matteolobello.launcher.ui.activity.LauncherActivity;
+import com.matteolobello.launcher.util.IconUtil;
 import com.matteolobello.launcher.util.IntentUtil;
 
 import java.util.ArrayList;
@@ -40,12 +41,16 @@ public abstract class DockFragment extends Fragment {
 
         iterateOverDockIcons((dockItemView, dockIconColumn) -> {
             final String packageName = packageNames.get(dockIconColumn);
+            if (packageName == null) {
+                return;
+            }
 
             dockItemView.setOnClickListener(view -> IntentUtil.launchApp(view, packageName));
 
             ImageView imageView = (ImageView) ((ViewGroup) dockItemView).getChildAt(0);
             try {
-                imageView.setImageDrawable(getContext().getPackageManager().getApplicationIcon(packageName));
+                IconUtil.setIconOnImageView(getLauncherActivity(), imageView,
+                        getContext().getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA));
 
                 dockItemView.setOnLongClickListener(view -> {
                     getLauncherActivity().showShortcutsBottomSheet(

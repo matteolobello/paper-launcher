@@ -17,8 +17,6 @@ public class MostLaunchedHelper {
 
     private static MostLaunchedHelper sInstance;
 
-    private SharedPreferences mSharedPreferences;
-
     private MostLaunchedHelper() {
     }
 
@@ -62,20 +60,16 @@ public class MostLaunchedHelper {
         preferences.edit().putInt(packageName, newValue).apply();
     }
 
-    private SharedPreferences getSharedPreferences(Context context) {
-        if (mSharedPreferences == null) {
-            mSharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        }
-
-        return mSharedPreferences;
-    }
-
     @SuppressWarnings("unchecked")
     private List<Map.Entry<String, Integer>> getAllEntries(Context context) {
         final SharedPreferences preferences = getSharedPreferences(context);
         final Map<String, ?> allPreferences = preferences.getAll();
 
         return DictionaryUtil.sortHashMapByValues((HashMap<String, Integer>) allPreferences);
+    }
+
+    private SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
     }
 }
 
