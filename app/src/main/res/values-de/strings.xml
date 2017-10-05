@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Paper Launcher</string>
+    <string name="wallpaper">Hintergrundbild</string>
+    <string name="edit_dock_icons">Bearbeite Dock-Icon</string>
+    <string name="apps">Apps</string>
+    <string name="all_icons">Alle Icon</string>
+    <string name="icon_pack">Icon Pack</string>
+    <string name="default_icon_pack">Standart</string>
+    <string name="icon_pack_applied">Icon Pack angewandt, bitte wähle Paper Launcher aus, um fortzufahren</string>
+    <string name="default_launcher">Als Standart-Launcher auswählen</string>
+</resources>
