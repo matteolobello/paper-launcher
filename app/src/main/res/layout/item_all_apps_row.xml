@@ -37,7 +37,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textSize="12sp"
+            android:textSize="13sp"
             tools:text="App Name" />
 
     </RelativeLayout>
@@ -70,7 +70,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textSize="12sp"
+            android:textSize="13sp"
             tools:text="App Name" />
 
     </RelativeLayout>
@@ -103,7 +103,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textSize="12sp"
+            android:textSize="13sp"
             tools:text="App Name" />
 
     </RelativeLayout>
@@ -136,7 +136,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textSize="12sp"
+            android:textSize="13sp"
             tools:text="App Name" />
 
     </RelativeLayout>
@@ -169,7 +169,7 @@
             android:layout_centerHorizontal="true"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="12sp"
+            android:textSize="13sp"
             tools:text="App Name" />
 
     </RelativeLayout>
