@@ -62,6 +62,13 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/colorDivider" />
 
+            <View
+                android:id="@+id/app_drawer_top_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/dock_view_pager"
+                android:background="@drawable/app_drawer_top_shadow" />
+
         </RelativeLayout>
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>

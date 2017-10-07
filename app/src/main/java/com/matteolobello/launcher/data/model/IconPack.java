@@ -128,6 +128,7 @@ public class IconPack {
                 return ((BitmapDrawable) bitmap).getBitmap();
             }
         }
+
         return null;
     }
 
@@ -176,11 +177,17 @@ public class IconPack {
         PackageManager packageManager = context.getPackageManager();
         Intent launchIntent = packageManager.getLaunchIntentForPackage(appPackageName);
         String componentName = null;
-        if (launchIntent != null)
+        if (launchIntent != null) {
             componentName = packageManager.getLaunchIntentForPackage(appPackageName).getComponent().toString();
+        }
         String drawable = mPackagesDrawables.get(componentName);
         if (drawable != null) {
-            return loadBitmap(drawable);
+            Bitmap bitmap = loadBitmap(drawable);
+            if (bitmap != null) {
+                return bitmap;
+            }
+
+            return defaultBitmap;
         } else {
             // try to get a resource with the component filename
             if (componentName != null) {
@@ -189,11 +196,17 @@ public class IconPack {
                 if (end > start) {
                     drawable = componentName.substring(start, end).toLowerCase(Locale.getDefault()).replace(".", "_").replace("/", "_");
                     if (iconPackRes.getIdentifier(drawable, "drawable", mIconPackPackageName) > 0) {
-                        return loadBitmap(drawable);
+                        Bitmap bitmap = loadBitmap(drawable);
+                        if (bitmap != null) {
+                            return bitmap;
+                        }
+
+                        return defaultBitmap;
                     }
                 }
             }
         }
+
         return generateBitmap(defaultBitmap);
     }
 

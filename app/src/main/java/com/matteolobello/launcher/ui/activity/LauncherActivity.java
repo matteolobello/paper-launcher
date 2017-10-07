@@ -91,6 +91,7 @@ public class LauncherActivity extends AppCompatActivity implements
     private View mSearchBarPillDividerView;
     private View mSearchAppsWrapperView;
     private TextView mSearchAppsTextView;
+    private View mAppDrawerShadowView;
     private RecyclerView mAllAppsRecyclerView;
     private View mBottomSheetView;
     private ImageView mBottomSheetAppImageView;
@@ -119,6 +120,28 @@ public class LauncherActivity extends AppCompatActivity implements
      */
     private MostLaunchedHelper mMostLaunchedHelper;
 
+    /**
+     * Handle shadow alpha on app drawer scroll
+     */
+    private RecyclerView.OnScrollListener mAllAppsRecyclerViewScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+
+            int pastVisibleItems = ((LinearLayoutManager) mAllAppsRecyclerView.getLayoutManager())
+                    .findFirstCompletelyVisibleItemPosition();
+            if (pastVisibleItems == 0) {
+                if (mAppDrawerShadowView.getAlpha() > 0) {
+                    mAppDrawerShadowView.animate().setDuration(70).alpha(0.0f);
+                }
+            } else {
+                if (mAppDrawerShadowView.getAlpha() < 1) {
+                    mAppDrawerShadowView.animate().setDuration(70).alpha(1.0f);
+                }
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +163,7 @@ public class LauncherActivity extends AppCompatActivity implements
         mSearchBarPillDividerView = findViewById(R.id.pill_divider);
         mSearchAppsWrapperView = findViewById(R.id.search_apps_wrapper);
         mSearchAppsTextView = findViewById(R.id.search_apps_label);
+        mAppDrawerShadowView = findViewById(R.id.app_drawer_top_shadow);
         mAllAppsRecyclerView = findViewById(R.id.apps_recycler_view);
         mBottomSheetView = findViewById(R.id.bottom_sheet);
         mBottomSheetAppImageView = findViewById(R.id.shortcuts_app_icon);
@@ -207,12 +231,12 @@ public class LauncherActivity extends AppCompatActivity implements
         mMostLaunchedHelper = MostLaunchedHelper.get();
         mMostLaunchedHelper.setupIfNeeded(this, mApplicationInfoList);
 
-
         mAllAppsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAllAppsRecyclerView.setItemViewCacheSize(30);
         mAllAppsRecyclerView.setDrawingCacheEnabled(true);
         mAllAppsRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         mAllAppsRecyclerView.setHasFixedSize(true);
+        mAllAppsRecyclerView.setOnScrollListener(mAllAppsRecyclerViewScrollListener);
 
         setAppDrawerData();
 
