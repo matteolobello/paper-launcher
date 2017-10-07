@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Paper Launcher</string>
+    <string name="wallpaper">Sfondo</string>
+    <string name="edit_dock_icons">Modifica icone dock</string>
+    <string name="apps">Apps</string>
+    <string name="all_icons">Tutte le icone</string>
+    <string name="icon_pack">Icon Pack</string>
+    <string name="default_icon_pack">Default</string>
+    <string name="icon_pack_applied">Icon Pack applicato, seleziona Paper Launcher per continuare, per favore</string>
+    <string name="default_launcher">Imposta come Launcher di default</string>
+</resources>
