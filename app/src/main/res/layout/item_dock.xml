@@ -26,9 +26,10 @@
             android:paddingTop="8dp">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="2dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/ic_launcher" />
 
         </RelativeLayout>
@@ -44,9 +45,10 @@
             android:paddingTop="8dp">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="2dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/ic_launcher" />
 
         </RelativeLayout>
@@ -62,9 +64,10 @@
             android:paddingTop="8dp">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="2dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/ic_launcher" />
 
         </RelativeLayout>
@@ -80,9 +83,10 @@
             android:paddingTop="8dp">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="2dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/ic_launcher" />
 
         </RelativeLayout>
@@ -98,9 +102,10 @@
             android:paddingTop="8dp">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="2dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/ic_launcher" />
 
         </RelativeLayout>
@@ -108,9 +113,9 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/dock_shadow"
+        android:id="@+id/dock_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorShadow" />
+        android:background="@color/colorDivider" />
 
 </LinearLayout>

@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#ffe0e0e0</color>
     <color name="colorAccent">#ff4285f4</color>
     <color name="colorStatusBar">#E0E0E0</color>
-    <color name="colorShadow">#E0E0E0</color>
+    <color name="colorDivider">#E0E0E0</color>
     <color name="colorItemsOnWhiteBackground">#696969</color>
 </resources>

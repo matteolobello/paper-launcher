@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.matteolobello.launcher.R;
 import com.matteolobello.launcher.data.preference.IconPackSelectHelper;
-import com.matteolobello.launcher.util.LauncherUtil;
 
 import java.util.ArrayList;
 

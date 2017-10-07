@@ -11,7 +11,6 @@ import android.view.View;
 import com.matteolobello.launcher.R;
 import com.matteolobello.launcher.ui.activity.IconPackChooserActivity;
 import com.matteolobello.launcher.ui.activity.LauncherActivity;
-import com.matteolobello.launcher.util.LauncherUtil;
 
 import java.util.ArrayList;
 import java.util.List;
