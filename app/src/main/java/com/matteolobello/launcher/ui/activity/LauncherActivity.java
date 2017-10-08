@@ -125,19 +125,18 @@ public class LauncherActivity extends AppCompatActivity implements
      */
     private RecyclerView.OnScrollListener mAllAppsRecyclerViewScrollListener = new RecyclerView.OnScrollListener() {
         @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
 
-            int pastVisibleItems = ((LinearLayoutManager) mAllAppsRecyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-            if (pastVisibleItems == 0) {
-                if (mAppDrawerShadowView.getAlpha() > 0) {
-                    mAppDrawerShadowView.animate().setDuration(70).alpha(0.0f);
-                }
-            } else {
-                if (mAppDrawerShadowView.getAlpha() < 1) {
-                    mAppDrawerShadowView.animate().setDuration(70).alpha(1.0f);
-                }
+            boolean isScrollDown = dy > 0 || ((LinearLayoutManager) mAllAppsRecyclerView.getLayoutManager())
+                    .findFirstCompletelyVisibleItemPosition() == 0;
+            if (isScrollDown) {
+                mAppDrawerShadowView.setAlpha(1.0f);
+            }
+
+            boolean isScrollUp = dy <= 0;
+            if (isScrollUp) {
+                mAppDrawerShadowView.setAlpha(0.0f);
             }
         }
     };
