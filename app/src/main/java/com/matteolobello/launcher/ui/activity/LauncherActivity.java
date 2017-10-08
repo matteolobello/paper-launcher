@@ -44,7 +44,7 @@ import com.matteolobello.launcher.ui.bottomsheet.BottomSheetBehaviorV2;
 import com.matteolobello.launcher.ui.dialog.CustomizationDialog;
 import com.matteolobello.launcher.ui.fragment.HomeScreenDockFragment;
 import com.matteolobello.launcher.ui.view.WorkspaceLayout;
-import com.matteolobello.launcher.util.DpPxUtils;
+import com.matteolobello.launcher.util.DpPxUtil;
 import com.matteolobello.launcher.util.IconUtil;
 import com.matteolobello.launcher.util.IntentUtil;
 import com.matteolobello.launcher.util.SDKUtil;
@@ -270,23 +270,23 @@ public class LauncherActivity extends AppCompatActivity implements
 
         FrameLayout.LayoutParams searchBarCardViewLayoutParams = (FrameLayout.LayoutParams) mSearchBarCardView.getLayoutParams();
 
-        searchBarCardViewLayoutParams.topMargin = (int) (DpPxUtils.dpToPx(this, 32)
-                - DpPxUtils.dpToPx(this, 8) * slideOffset);
-        searchBarCardViewLayoutParams.leftMargin = (int) (DpPxUtils.dpToPx(this, 8)
-                - DpPxUtils.dpToPx(this, 8) * slideOffset);
-        searchBarCardViewLayoutParams.rightMargin = (int) (DpPxUtils.dpToPx(this, 8)
-                - DpPxUtils.dpToPx(this, 8) * slideOffset);
-        searchBarCardViewLayoutParams.height = (int) (DpPxUtils.dpToPx(this, 56)
-                + DpPxUtils.dpToPx(this, 10) * slideOffset);
+        searchBarCardViewLayoutParams.topMargin = (int) (DpPxUtil.dpToPx(this, 32)
+                - DpPxUtil.dpToPx(this, 8) * slideOffset);
+        searchBarCardViewLayoutParams.leftMargin = (int) (DpPxUtil.dpToPx(this, 8)
+                - DpPxUtil.dpToPx(this, 8) * slideOffset);
+        searchBarCardViewLayoutParams.rightMargin = (int) (DpPxUtil.dpToPx(this, 8)
+                - DpPxUtil.dpToPx(this, 8) * slideOffset);
+        searchBarCardViewLayoutParams.height = (int) (DpPxUtil.dpToPx(this, 56)
+                + DpPxUtil.dpToPx(this, 10) * slideOffset);
 
         mSearchBarCardView.setLayoutParams(searchBarCardViewLayoutParams);
 
-        float searchBarCardViewElevation = DpPxUtils.dpToPx(this, 4)
-                - DpPxUtils.dpToPx(this, 4) * slideOffset;
+        float searchBarCardViewElevation = DpPxUtil.dpToPx(this, 4)
+                - DpPxUtil.dpToPx(this, 4) * slideOffset;
         mSearchBarCardView.setCardElevation(searchBarCardViewElevation);
 
-        float searchBarCardViewRadius = DpPxUtils.dpToPx(this, 2)
-                - DpPxUtils.dpToPx(this, 2) * slideOffset;
+        float searchBarCardViewRadius = DpPxUtil.dpToPx(this, 2)
+                - DpPxUtil.dpToPx(this, 2) * slideOffset;
         // CardView bug, if radius equals to 0.xxx, the alpha will be changed
         mSearchBarCardView.setRadius(
                 String.valueOf(searchBarCardViewRadius).charAt(0) == '0'
@@ -296,7 +296,7 @@ public class LauncherActivity extends AppCompatActivity implements
         mGoogleArrowImageView.animate()
                 .setDuration(0)
                 .rotation(-90 * slideOffset)
-                .translationX(DpPxUtils.dpToPx(this, 16) * slideOffset)
+                .translationX(DpPxUtil.dpToPx(this, 16) * slideOffset)
                 .start();
 
         mGoogleIconImageView.animate()
@@ -312,12 +312,12 @@ public class LauncherActivity extends AppCompatActivity implements
 
         mSearchAppsWrapperView.animate()
                 .setDuration(0)
-                .translationX(-DpPxUtils.dpToPx(this, 26) * slideOffset)
+                .translationX(-DpPxUtil.dpToPx(this, 26) * slideOffset)
                 .start();
 
         mSearchBarPillDividerView.animate()
                 .setDuration(0)
-                .translationX(-DpPxUtils.dpToPx(this, 20) * slideOffset)
+                .translationX(-DpPxUtil.dpToPx(this, 20) * slideOffset)
                 .start();
 
         SaturationUtil.setSaturation(mGoogleMicImageView, 1.0f - slideOffset);
