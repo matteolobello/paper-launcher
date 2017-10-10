@@ -36,6 +36,7 @@ import com.matteolobello.launcher.data.preference.IconPackSelectHelper;
 import com.matteolobello.launcher.data.preference.MostLaunchedHelper;
 import com.matteolobello.launcher.data.watcher.AppListUpdateWatcher;
 import com.matteolobello.launcher.data.watcher.HomeButtonPressWatcher;
+import com.matteolobello.launcher.data.watcher.ScreenOffWatcher;
 import com.matteolobello.launcher.ui.adapter.fragment.DockViewPagerAdapter;
 import com.matteolobello.launcher.ui.adapter.recyclerview.AllAppsRecyclerViewAdapter;
 import com.matteolobello.launcher.ui.adapter.recyclerview.ShortcutsRecyclerViewAdapter;
@@ -49,7 +50,6 @@ import com.matteolobello.launcher.util.IconUtil;
 import com.matteolobello.launcher.util.IntentUtil;
 import com.matteolobello.launcher.util.SDKUtil;
 import com.matteolobello.launcher.util.SystemBarUtil;
-
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ import java.util.Map;
 
 public class LauncherActivity extends AppCompatActivity implements
         SlidingUpPanelLayout.PanelSlideListener, HomeButtonPressWatcher.OnHomePressedListener,
-        AppListUpdateWatcher.OnMustUpdateAppListListener {
+        AppListUpdateWatcher.OnMustUpdateAppListListener, ScreenOffWatcher.OnScreenOffListener {
 
     /**
      * The number of columns of the dock and app drawer
@@ -235,6 +235,10 @@ public class LauncherActivity extends AppCompatActivity implements
         AppListUpdateWatcher appListUpdateWatcher = new AppListUpdateWatcher(this);
         appListUpdateWatcher.setOnMustUpdateAppListListener(this);
         appListUpdateWatcher.startWatching();
+
+        ScreenOffWatcher screenOffWatcher = new ScreenOffWatcher(this);
+        screenOffWatcher.setOnScreenOffListener(this);
+        screenOffWatcher.startWatching();
     }
 
     @Override
@@ -340,6 +344,11 @@ public class LauncherActivity extends AppCompatActivity implements
     @Override
     public void onMustUpdateAppList() {
         setAppDrawerData();
+    }
+
+    @Override
+    public void onScreenOff() {
+        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
     @Override
