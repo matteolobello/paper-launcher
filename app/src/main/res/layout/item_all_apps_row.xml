@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="86dp"
+    android:layout_height="88dp"
     android:layout_gravity="center"
-    android:background="@android:color/white"
+    android:background="@color/colorPrimary"
     android:baselineAligned="false"
     android:orientation="horizontal"
     android:weightSum="5">
 
     <LinearLayout
+
         android:id="@+id/first_icon_row"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingEnd="4dp"
-        android:paddingStart="8dp">
+        android:paddingTop="@dimen/standard_padding">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/first_app_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher" />
@@ -32,11 +34,13 @@
             android:id="@+id/first_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_margin="@dimen/standard_padding"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="1"
-            android:textSize="13sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="12sp"
+            app:fontFamily="sans-serif-condensed"
             tools:text="App Name" />
 
     </LinearLayout>
@@ -47,15 +51,15 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingEnd="4dp"
-        android:paddingStart="8dp">
+        android:paddingTop="@dimen/standard_padding">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/second_app_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher" />
@@ -64,11 +68,12 @@
             android:id="@+id/second_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_margin="@dimen/standard_padding"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="1"
-            android:textSize="13sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:fontFamily="sans-serif-condensed"
             tools:text="App Name" />
 
     </LinearLayout>
@@ -79,15 +84,15 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingEnd="4dp"
-        android:paddingStart="8dp">
+        android:paddingTop="@dimen/standard_padding">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/third_app_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher" />
@@ -96,11 +101,12 @@
             android:id="@+id/third_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_margin="@dimen/standard_padding"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="1"
-            android:textSize="13sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:fontFamily="sans-serif-condensed"
             tools:text="App Name" />
 
     </LinearLayout>
@@ -111,15 +117,15 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingEnd="4dp"
-        android:paddingStart="8dp">
+        android:paddingTop="@dimen/standard_padding">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/fourth_app_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher" />
@@ -128,11 +134,12 @@
             android:id="@+id/fourth_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_margin="@dimen/standard_padding"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="1"
-            android:textSize="13sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:fontFamily="sans-serif-condensed"
             tools:text="App Name" />
 
     </LinearLayout>
@@ -143,15 +150,15 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingEnd="4dp"
-        android:paddingStart="8dp">
+        android:paddingTop="@dimen/standard_padding">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/fifth_app_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:scaleType="fitCenter"
@@ -161,11 +168,12 @@
             android:id="@+id/fifth_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_margin="@dimen/standard_padding"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="1"
-            android:textSize="13sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:fontFamily="sans-serif-condensed"
             tools:text="App Name" />
 
     </LinearLayout>

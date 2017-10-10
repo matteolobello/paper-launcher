@@ -12,6 +12,14 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
+    <FrameLayout
+        android:id="@+id/wallpaper_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@color/colorWallpaperOverlay"
+        android:clickable="false" />
+
     <android.support.v7.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,10 +29,10 @@
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="89dp"
+        android:layout_marginTop="@dimen/dock_size"
         android:gravity="bottom"
         app:umanoFadeColor="@android:color/transparent"
-        app:umanoPanelHeight="68dp"
+        app:umanoPanelHeight="@dimen/dock_size"
         app:umanoScrollableView="@+id/apps_recycler_view"
         app:umanoShadowHeight="4dp">
 
@@ -37,14 +45,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
+            android:background="@color/colorPrimary"
             android:gravity="center|top"
             android:orientation="horizontal">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/dock_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="68dp"
+                android:layout_height="@dimen/dock_size"
                 android:layout_gravity="center" />
 
             <android.support.v7.widget.RecyclerView
@@ -53,19 +61,20 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/dock_view_pager"
                 android:clipToPadding="false"
-                android:paddingBottom="8dp" />
+                android:paddingBottom="@dimen/standard_padding"
+                android:paddingTop="@dimen/standard_padding" />
 
             <View
-                android:id="@+id/dock_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+                android:layout_gravity="top"
+                android:layout_marginBottom="-1dp"
                 android:background="@color/colorDivider" />
 
             <View
                 android:id="@+id/app_drawer_top_shadow"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="6dp"
                 android:layout_below="@id/dock_view_pager"
                 android:background="@drawable/app_drawer_top_shadow" />
 
@@ -80,11 +89,11 @@
         <android.support.v7.widget.CardView
             android:id="@+id/search_bar_container"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="@dimen/search_bar_size"
+            android:layout_marginEnd="@dimen/standard_padding"
+            android:layout_marginStart="@dimen/standard_padding"
             android:layout_marginTop="32dp"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="2dp">
 
             <RelativeLayout
@@ -93,22 +102,21 @@
 
                 <RelativeLayout
                     android:id="@+id/pill_wrapper"
-                    android:layout_width="90dp"
+                    android:layout_width="88dp"
                     android:layout_height="match_parent">
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/google_arrow"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="@dimen/system_icon_size"
+                        android:layout_height="@dimen/system_icon_size"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="4dp"
-                        android:alpha="0.75"
                         app:srcCompat="@drawable/ic_arrow" />
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/google_icon"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="4dp"
                         android:layout_toEndOf="@id/google_arrow"
@@ -119,7 +127,7 @@
                         android:layout_width="1dp"
                         android:layout_height="36dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="7dp"
                         android:layout_marginStart="16dp"
                         android:layout_toEndOf="@id/google_icon"
                         android:alpha="0.20"
@@ -143,19 +151,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="12dp"
                         android:alpha="0.0"
                         android:text="@string/apps"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                         tools:alpha="1.0" />
 
                 </RelativeLayout>
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/google_mic"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/system_icon_size"
+                    android:layout_height="@dimen/system_icon_size"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
@@ -167,6 +174,12 @@
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorDivider" />
 
     </FrameLayout>
 

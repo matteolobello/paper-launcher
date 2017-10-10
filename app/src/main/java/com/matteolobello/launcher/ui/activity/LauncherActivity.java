@@ -48,8 +48,8 @@ import com.matteolobello.launcher.util.DpPxUtil;
 import com.matteolobello.launcher.util.IconUtil;
 import com.matteolobello.launcher.util.IntentUtil;
 import com.matteolobello.launcher.util.SDKUtil;
-import com.matteolobello.launcher.util.SaturationUtil;
 import com.matteolobello.launcher.util.SystemBarUtil;
+
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -98,6 +98,7 @@ public class LauncherActivity extends AppCompatActivity implements
     private TextView mBottomSheetAppTextView;
     private ImageView mBottomSheetAppInfoImageView;
     private RecyclerView mShortcutsRecyclerView;
+    private FrameLayout mWallpaperOverlay;
 
     /**
      * The Adapters
@@ -128,16 +129,9 @@ public class LauncherActivity extends AppCompatActivity implements
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-            boolean isScrollDown = dy > 0 || ((LinearLayoutManager) mAllAppsRecyclerView.getLayoutManager())
+            boolean isFirstRowVisible = ((LinearLayoutManager) mAllAppsRecyclerView.getLayoutManager())
                     .findFirstCompletelyVisibleItemPosition() == 0;
-            if (isScrollDown) {
-                mAppDrawerShadowView.setAlpha(1.0f);
-            }
-
-            boolean isScrollUp = dy <= 0;
-            if (isScrollUp) {
-                mAppDrawerShadowView.setAlpha(0.0f);
-            }
+            mAppDrawerShadowView.setAlpha(isFirstRowVisible ? 0.0f : 1.0f);
         }
     };
 
@@ -150,6 +144,7 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void findViews() {
+        mWallpaperOverlay = findViewById(R.id.wallpaper_overlay);
         mParentCoordinatorLayout = findViewById(R.id.parent_container);
         mSlidingUpPanelLayout = findViewById(R.id.sliding_layout);
         mSearchBarCardView = findViewById(R.id.search_bar_container);
@@ -174,15 +169,10 @@ public class LauncherActivity extends AppCompatActivity implements
     private void setupUi() {
         mApplicationInfoList = ApplicationInfoLoader.loadAppList(this);
 
-        HashMap<String, IconPack> iconPackHashMap = IconPackLoader.getAvailableIconPacks(this, false);
-        String iconPackPackageName = IconPackSelectHelper.get().getIconPack(this);
-        if (iconPackPackageName != null) {
-            for (Map.Entry<String, IconPack> entry : iconPackHashMap.entrySet()) {
-                if (entry.getKey().equals(iconPackPackageName)) {
-                    mCurrentIconPack = entry.getValue();
-                }
-            }
-        }
+        mCurrentIconPack = fetchCurrentIconPack();
+
+        mMostLaunchedHelper = MostLaunchedHelper.get();
+        mMostLaunchedHelper.setupIfNeeded(this, mApplicationInfoList);
 
         mParentCoordinatorLayout.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
@@ -197,7 +187,7 @@ public class LauncherActivity extends AppCompatActivity implements
         if (SDKUtil.AT_LEAST_O) {
             // Avoid setting white color to NavigationBar on Lollipop
             // as SoftKeys wouldn't be visible (white on white)
-            SystemBarUtil.setNavigationBarColor(this, Color.WHITE);
+            SystemBarUtil.setNavigationBarColor(this, getColor(R.color.colorPrimary));
 
             SystemBarUtil.enableDarkNavigationBarIcons(this);
         }
@@ -227,9 +217,6 @@ public class LauncherActivity extends AppCompatActivity implements
         mShortcutsRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         mShortcutsRecyclerView.setHasFixedSize(true);
 
-        mMostLaunchedHelper = MostLaunchedHelper.get();
-        mMostLaunchedHelper.setupIfNeeded(this, mApplicationInfoList);
-
         mAllAppsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAllAppsRecyclerView.setItemViewCacheSize(30);
         mAllAppsRecyclerView.setDrawingCacheEnabled(true);
@@ -257,7 +244,7 @@ public class LauncherActivity extends AppCompatActivity implements
         SystemBarUtil.setStatusBarColor(this, (Integer) new ArgbEvaluator().evaluate(slideOffset,
                 Color.TRANSPARENT, ContextCompat.getColor(this, R.color.colorStatusBar)));
 
-        if (slideOffset >= 0.85) {
+        if (slideOffset >= 0.6) {
             SystemBarUtil.enableLightStatusBar(this);
         } else {
             SystemBarUtil.clearLightStatusBar(this);
@@ -276,8 +263,8 @@ public class LauncherActivity extends AppCompatActivity implements
                 - DpPxUtil.dpToPx(this, 8) * slideOffset);
         searchBarCardViewLayoutParams.rightMargin = (int) (DpPxUtil.dpToPx(this, 8)
                 - DpPxUtil.dpToPx(this, 8) * slideOffset);
-        searchBarCardViewLayoutParams.height = (int) (DpPxUtil.dpToPx(this, 56)
-                + DpPxUtil.dpToPx(this, 10) * slideOffset);
+        searchBarCardViewLayoutParams.height = (int) (DpPxUtil.dpToPx(this, 48)
+                + DpPxUtil.dpToPx(this, 8) * slideOffset);
 
         mSearchBarCardView.setLayoutParams(searchBarCardViewLayoutParams);
 
@@ -296,7 +283,7 @@ public class LauncherActivity extends AppCompatActivity implements
         mGoogleArrowImageView.animate()
                 .setDuration(0)
                 .rotation(-90 * slideOffset)
-                .translationX(DpPxUtil.dpToPx(this, 16) * slideOffset)
+                .translationX(DpPxUtil.dpToPx(this, 12) * slideOffset)
                 .start();
 
         mGoogleIconImageView.animate()
@@ -310,6 +297,11 @@ public class LauncherActivity extends AppCompatActivity implements
                 .alpha(slideOffset)
                 .start();
 
+        mWallpaperOverlay.animate()
+                .setDuration(0)
+                .alpha(slideOffset)
+                .start();
+
         mSearchAppsWrapperView.animate()
                 .setDuration(0)
                 .translationX(-DpPxUtil.dpToPx(this, 26) * slideOffset)
@@ -317,10 +309,11 @@ public class LauncherActivity extends AppCompatActivity implements
 
         mSearchBarPillDividerView.animate()
                 .setDuration(0)
-                .translationX(-DpPxUtil.dpToPx(this, 20) * slideOffset)
+                .translationX(-DpPxUtil.dpToPx(this, 16) * slideOffset)
                 .start();
 
-        SaturationUtil.setSaturation(mGoogleMicImageView, 1.0f - slideOffset);
+        mGoogleMicImageView.setColorFilter((Integer) new ArgbEvaluator().evaluate(slideOffset, Color.TRANSPARENT,
+                ContextCompat.getColor(this, R.color.colorMicOnAppDrawer)));
     }
 
     @Override
@@ -495,6 +488,20 @@ public class LauncherActivity extends AppCompatActivity implements
 
     private void updateWallpaper() {
         mWallpaperImageView.setImageDrawable(WallpaperManager.getInstance(this).getDrawable());
+    }
+
+    private IconPack fetchCurrentIconPack() {
+        HashMap<String, IconPack> iconPackHashMap = IconPackLoader.getAvailableIconPacks(this, false);
+        String iconPackPackageName = IconPackSelectHelper.get().getIconPack(this);
+        if (iconPackPackageName != null) {
+            for (Map.Entry<String, IconPack> entry : iconPackHashMap.entrySet()) {
+                if (entry.getKey().equals(iconPackPackageName)) {
+                    return entry.getValue();
+                }
+            }
+        }
+
+        return null;
     }
 
     private void setAppDrawerData() {

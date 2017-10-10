@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="76dp"
+    android:layout_height="@dimen/dock_size"
     android:foreground="?android:selectableItemBackground">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/icon_pack_icon_image_view"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="@dimen/app_icon_size"
+        android:layout_height="@dimen/app_icon_size"
         android:layout_centerVertical="true"
-        android:layout_marginStart="16dp" />
+        android:layout_margin="16dp" />
 
     <TextView
         android:id="@+id/icon_pack_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="16dp"
         android:layout_toEndOf="@id/icon_pack_icon_image_view"
-        android:textSize="20sp" />
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        tools:text="KMZ" />
 
 </RelativeLayout>

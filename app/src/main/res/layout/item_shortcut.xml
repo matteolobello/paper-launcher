@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/shortcut_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/app_icon_size"
+        android:layout_height="@dimen/app_icon_size"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/standard_padding"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="@dimen/standard_padding" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/shortcut_text"

@@ -4,21 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/standard_padding"
+    android:paddingTop="@dimen/standard_padding">
 
     <LinearLayout
         android:id="@+id/customization_default_launcher"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:foreground="?android:selectableItemBackground">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/system_icon_size"
+            android:layout_height="@dimen/system_icon_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
+            android:layout_margin="16dp"
             app:srcCompat="@drawable/ic_home"
-            app:tint="@color/colorItemsOnWhiteBackground" />
+            app:tint="@color/colorIconsBrightBackground" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -26,95 +28,90 @@
             android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
             android:text="@string/default_launcher"
-            android:textColor="@color/colorItemsOnWhiteBackground"
-            android:textSize="20sp" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorTextBrightBackground" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/customization_wallpaper"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:foreground="?android:selectableItemBackground">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/system_icon_size"
+            android:layout_height="@dimen/system_icon_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
+            android:layout_margin="16dp"
             app:srcCompat="@drawable/ic_wallpaper"
-            app:tint="@color/colorItemsOnWhiteBackground" />
+            app:tint="@color/colorIconsBrightBackground" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
             android:text="@string/wallpaper"
-            android:textColor="@color/colorItemsOnWhiteBackground"
-            android:textSize="20sp" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorTextBrightBackground" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/customization_edit_dock_icons"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:foreground="?android:selectableItemBackground">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/system_icon_size"
+            android:layout_height="@dimen/system_icon_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
+            android:layout_margin="16dp"
             app:srcCompat="@drawable/ic_edit"
-            app:tint="@color/colorItemsOnWhiteBackground" />
+            app:tint="@color/colorIconsBrightBackground" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
             android:text="@string/edit_dock_icons"
-            android:textColor="@color/colorItemsOnWhiteBackground"
-            android:textSize="20sp" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorTextBrightBackground" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/customization_icon_pack"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:foreground="?android:selectableItemBackground">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/system_icon_size"
+            android:layout_height="@dimen/system_icon_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
+            android:layout_margin="16dp"
             app:srcCompat="@drawable/ic_icon"
-            app:tint="@color/colorItemsOnWhiteBackground" />
+            app:tint="@color/colorIconsBrightBackground" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
             android:text="@string/icon_pack"
-            android:textColor="@color/colorItemsOnWhiteBackground"
-            android:textSize="20sp" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorTextBrightBackground" />
 
     </LinearLayout>
 

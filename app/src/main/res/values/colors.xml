@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#fff5f5f5</color>
+    <color name="colorPrimary">#fff7f7f7</color>
     <color name="colorPrimaryDark">#ffe0e0e0</color>
     <color name="colorAccent">#ff4285f4</color>
     <color name="colorStatusBar">#E0E0E0</color>
-    <color name="colorDivider">#E0E0E0</color>
-    <color name="colorItemsOnWhiteBackground">#696969</color>
+    <color name="colorDivider">#1F000000</color>
+    <color name="colorIconsBrightBackground">#8A000000</color>
+    <color name="colorTextBrightBackground">#DE000000</color>
+    <color name="colorWallpaperOverlay">#80000000</color>
+    <color name="colorItemsDarkBackground">#FFffffff</color>
+    <color name="colorMicOnAppDrawer">#696969</color>
 </resources>

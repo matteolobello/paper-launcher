@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_icon_size">48dp</dimen>
+    <dimen name="system_icon_size">24dp</dimen>
+    <dimen name="dock_size">80dp</dimen>
+    <dimen name="search_bar_size">48dp</dimen>
+    <dimen name="shortcuts_scrim_size">4dp</dimen>
+    <dimen name="apps_toolbar_shadow">6dp</dimen>
+    <dimen name="standard_padding">8dp</dimen>
+</resources>
