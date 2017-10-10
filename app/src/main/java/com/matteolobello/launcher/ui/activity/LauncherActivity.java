@@ -537,6 +537,9 @@ public class LauncherActivity extends AppCompatActivity implements
             mAllAppsRecyclerViewAdapter = new AllAppsRecyclerViewAdapter(LauncherActivity.this,
                     IconRowsLoader.loadIconRows(mApplicationInfoList));
             mAllAppsRecyclerView.setAdapter(mAllAppsRecyclerViewAdapter);
+
+            mDockViewPagerAdapter.getMostLaunchedAppsDockFragment().dispatchMostLaunchedAppIconsUpdate();
+            mDockViewPagerAdapter.getHomeScreenDockFragment().setupDockIcons();
         }
     }
 }

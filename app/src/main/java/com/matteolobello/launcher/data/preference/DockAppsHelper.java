@@ -2,6 +2,7 @@ package com.matteolobello.launcher.data.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 
 import com.matteolobello.launcher.data.model.DockIcon;
 import com.matteolobello.launcher.util.DictionaryUtil;
@@ -33,7 +34,18 @@ public class DockAppsHelper {
 
         List<Map.Entry<String, Integer>> entries = getAllEntries(context);
         for (Map.Entry<String, Integer> entry : entries) {
-            returnValue.add(new DockIcon(entry.getKey(), entry.getValue()));
+            String packageName = entry.getKey();
+            int column = entry.getValue();
+
+            try {
+                context.getPackageManager().getPackageInfo(packageName, 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                getSharedPreferences(context).edit().remove(packageName).apply();
+
+                continue;
+            }
+
+            returnValue.add(new DockIcon(packageName, column));
         }
 
         return returnValue;

@@ -3,6 +3,7 @@ package com.matteolobello.launcher.data.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 
 import com.matteolobello.launcher.util.DictionaryUtil;
 
@@ -45,7 +46,16 @@ public class MostLaunchedHelper {
 
         List<Map.Entry<String, Integer>> entries = getAllEntries(context);
         for (Map.Entry<String, Integer> entry : entries) {
-            returnValue.add(entry.getKey());
+            String packageName = entry.getKey();
+            try {
+                context.getPackageManager().getPackageInfo(packageName, 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                getSharedPreferences(context).edit().remove(packageName).apply();
+
+                continue;
+            }
+
+            returnValue.add(packageName);
         }
 
         return returnValue;

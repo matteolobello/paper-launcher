@@ -32,6 +32,43 @@ public class HomeScreenDockFragment extends DockFragment {
         setupDockIcons();
     }
 
+    public void setupDockIcons() {
+        ArrayList<DockIcon> orderedDockItemPackagesArrayList = DockAppsHelper.get().getOrderedDockIcons(getContext());
+        if (orderedDockItemPackagesArrayList == null || orderedDockItemPackagesArrayList.size() == 0) {
+            return;
+        }
+
+        for (DockIcon dockIcon : orderedDockItemPackagesArrayList) {
+            String packageName = dockIcon.getPackageName();
+            if (packageName == null) {
+                return;
+            }
+
+            try {
+                ApplicationInfo applicationInfo = getContext().getPackageManager().getApplicationInfo(packageName, 0);
+
+                DOCK_ITEMS_APPLICATION_INFO_ARRAY[dockIcon.getColumn()] = applicationInfo;
+
+                View dockItemView = getItemAtColumn(dockIcon.getColumn());
+                dockItemView.post(() -> {
+                    IconUtil.setIconOnImageView(getLauncherActivity(),
+                            ((ImageView) ((ViewGroup) dockItemView).getChildAt(0)), applicationInfo);
+
+                    dockItemView.setOnClickListener(view -> IntentUtil.launchApp(view, packageName));
+
+                    dockItemView.setOnLongClickListener(view -> {
+                        getLauncherActivity().showShortcutsBottomSheet(applicationInfo.packageName,
+                                ShortcutsLoader.loadShortcuts(getContext(), applicationInfo.packageName));
+
+                        return !getLauncherActivity().isExpandingAppDrawer();
+                    });
+                });
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void startIconsEditing() {
         mDockIconsEditAnimation = new AlphaAnimation(0.4f, 1.0f);
         mDockIconsEditAnimation.setDuration(260);
@@ -72,42 +109,5 @@ public class HomeScreenDockFragment extends DockFragment {
 
     private void showSelectAppForIconAtColumn(int dockIconColumn) {
         SelectDockIconDialog.show(getLauncherActivity(), dockIconColumn);
-    }
-
-    private void setupDockIcons() {
-        ArrayList<DockIcon> orderedDockItemPackagesArrayList = DockAppsHelper.get().getOrderedDockIcons(getContext());
-        if (orderedDockItemPackagesArrayList == null || orderedDockItemPackagesArrayList.size() == 0) {
-            return;
-        }
-
-        for (DockIcon dockIcon : orderedDockItemPackagesArrayList) {
-            String packageName = dockIcon.getPackageName();
-            if (packageName == null) {
-                return;
-            }
-
-            try {
-                ApplicationInfo applicationInfo = getContext().getPackageManager().getApplicationInfo(packageName, 0);
-
-                DOCK_ITEMS_APPLICATION_INFO_ARRAY[dockIcon.getColumn()] = applicationInfo;
-
-                View dockItemView = getItemAtColumn(dockIcon.getColumn());
-                dockItemView.post(() -> {
-                    IconUtil.setIconOnImageView(getLauncherActivity(),
-                            ((ImageView) ((ViewGroup) dockItemView).getChildAt(0)), applicationInfo);
-
-                    dockItemView.setOnClickListener(view -> IntentUtil.launchApp(view, packageName));
-
-                    dockItemView.setOnLongClickListener(view -> {
-                        getLauncherActivity().showShortcutsBottomSheet(applicationInfo.packageName,
-                                ShortcutsLoader.loadShortcuts(getContext(), applicationInfo.packageName));
-
-                        return !getLauncherActivity().isExpandingAppDrawer();
-                    });
-                });
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
