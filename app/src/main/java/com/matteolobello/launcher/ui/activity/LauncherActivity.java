@@ -329,6 +329,8 @@ public class LauncherActivity extends AppCompatActivity implements
     public void onHomePressed() {
         if (isAppDrawerOpened()) {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else {
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         }
 
         if (mBottomSheetBehavior.getState() == BottomSheetBehaviorV2.STATE_EXPANDED) {
