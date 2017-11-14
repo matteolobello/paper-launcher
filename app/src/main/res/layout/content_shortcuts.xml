@@ -29,17 +29,19 @@
             android:id="@+id/shortcuts_app_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/shortcuts_app_icon"
             android:layout_toStartOf="@id/shortcuts_app_info"
             android:ellipsize="end"
-            android:lines="1"
-            android:textStyle="bold" />
+            android:lines="1" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/shortcuts_app_info"
-            android:layout_width="@dimen/system_icon_size"
-            android:layout_height="@dimen/system_icon_size"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:clipToPadding="false"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="24dp"
