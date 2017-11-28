@@ -45,7 +45,7 @@ public class WorkspaceLayout extends View {
         private final LauncherActivity mLauncherActivity;
 
         CustomGestureDetector(View view) {
-            mLauncherActivity = ((LauncherActivity) view.getContext());
+            mLauncherActivity = (LauncherActivity) view.getContext();
         }
 
         @Override

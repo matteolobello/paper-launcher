@@ -37,6 +37,10 @@ public abstract class DockFragment extends Fragment {
     }
 
     public void dispatchMostLaunchedAppIconsUpdate() {
+        if (!isAdded()) {
+            return;
+        }
+        
         final ArrayList<String> packageNames = MostLaunchedHelper.get().getMostLaunchedApps(getContext());
 
         iterateOverDockIcons((dockItemView, dockIconColumn) -> {
