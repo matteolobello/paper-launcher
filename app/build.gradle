@@ -7,8 +7,8 @@ android {
         applicationId "com.matteolobello.launcher"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 4
+        versionName "1.0.2"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary true
     }
