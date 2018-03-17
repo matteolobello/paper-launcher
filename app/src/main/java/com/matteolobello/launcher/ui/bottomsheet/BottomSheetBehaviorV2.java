@@ -396,7 +396,7 @@ public class BottomSheetBehaviorV2<V extends View> extends CoordinatorLayout.Beh
 
     @Override
     public boolean onTouchEvent(CoordinatorLayout parent, V child, MotionEvent event) {
-        if (!child.isShown()) {
+        if (!child.isShown() || mViewDragHelper == null) {
             return false;
         }
         int action = MotionEventCompat.getActionMasked(event);
