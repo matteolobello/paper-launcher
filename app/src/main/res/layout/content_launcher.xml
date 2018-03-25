@@ -6,19 +6,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/wallpaper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
-
     <FrameLayout
         android:id="@+id/wallpaper_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0"
         android:background="@color/colorWallpaperOverlay"
-        android:clickable="false" />
+        android:clickable="false"
+        android:visibility="gone" />
 
     <android.support.v7.widget.AppCompatImageView
         android:layout_width="match_parent"

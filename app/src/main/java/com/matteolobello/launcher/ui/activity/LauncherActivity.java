@@ -82,7 +82,6 @@ public class LauncherActivity extends AppCompatActivity implements
     private CoordinatorLayout mParentCoordinatorLayout;
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private CardView mSearchBarCardView;
-    private ImageView mWallpaperImageView;
     private WorkspaceLayout mWorkspaceLayout;
     private ViewPager mDockViewPager;
     private ImageView mGoogleIconImageView;
@@ -148,7 +147,6 @@ public class LauncherActivity extends AppCompatActivity implements
         mParentCoordinatorLayout = findViewById(R.id.parent_container);
         mSlidingUpPanelLayout = findViewById(R.id.sliding_layout);
         mSearchBarCardView = findViewById(R.id.search_bar_container);
-        mWallpaperImageView = findViewById(R.id.wallpaper);
         mWorkspaceLayout = findViewById(R.id.workspace);
         mDockViewPager = findViewById(R.id.dock_view_pager);
         mGoogleIconImageView = findViewById(R.id.google_icon);
@@ -225,8 +223,6 @@ public class LauncherActivity extends AppCompatActivity implements
         mAllAppsRecyclerView.setOnScrollListener(mAllAppsRecyclerViewScrollListener);
 
         setAppDrawerData();
-
-        updateWallpaper();
 
         HomeButtonPressWatcher homeButtonPressWatcher = new HomeButtonPressWatcher(this);
         homeButtonPressWatcher.setOnHomePressedListener(this);
@@ -386,15 +382,6 @@ public class LauncherActivity extends AppCompatActivity implements
         return super.dispatchTouchEvent(event);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == WALLPAPER_SELECT_INTENT_CODE && resultCode == RESULT_OK) {
-            updateWallpaper();
-        }
-    }
-
     public void notifyAppLaunch(ApplicationInfo applicationInfo) {
         mMostLaunchedHelper.incrementCounterForPackageName(this, applicationInfo.packageName);
         mDockViewPagerAdapter.getMostLaunchedAppsDockFragment().dispatchMostLaunchedAppIconsUpdate();
@@ -495,10 +482,6 @@ public class LauncherActivity extends AppCompatActivity implements
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    private void updateWallpaper() {
-        mWallpaperImageView.setImageDrawable(WallpaperManager.getInstance(this).getDrawable());
     }
 
     private IconPack fetchCurrentIconPack() {
