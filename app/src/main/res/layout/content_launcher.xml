@@ -41,8 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
-            android:gravity="center|top"
-            android:orientation="horizontal">
+            android:gravity="center_horizontal|top">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/dock_view_pager"
@@ -55,9 +54,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/dock_view_pager"
+                android:layout_centerHorizontal="true"
                 android:clipToPadding="false"
-                android:paddingBottom="@dimen/standard_padding"
-                android:paddingTop="@dimen/standard_padding" />
+                android:paddingTop="@dimen/standard_padding"
+                android:paddingBottom="@dimen/standard_padding" />
 
             <View
                 android:layout_width="match_parent"
@@ -85,9 +85,9 @@
             android:id="@+id/search_bar_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/search_bar_size"
-            android:layout_marginEnd="@dimen/standard_padding"
             android:layout_marginStart="@dimen/standard_padding"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="@dimen/standard_padding"
             app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="2dp">
 
@@ -122,8 +122,8 @@
                         android:layout_width="1dp"
                         android:layout_height="36dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="7dp"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="7dp"
                         android:layout_toEndOf="@id/google_icon"
                         android:alpha="0.20"
                         android:background="@android:color/black" />
@@ -134,8 +134,8 @@
                     android:id="@+id/search_apps_wrapper"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_toEndOf="@id/pill_wrapper"
                     android:layout_toStartOf="@+id/google_mic"
+                    android:layout_toEndOf="@id/pill_wrapper"
                     android:alpha="1.0"
                     android:clickable="true"
                     android:focusable="true"
@@ -160,8 +160,8 @@
                     android:layout_height="@dimen/system_icon_size"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:clickable="true"
                     android:focusable="true"
                     app:srcCompat="@drawable/ic_google_mic" />

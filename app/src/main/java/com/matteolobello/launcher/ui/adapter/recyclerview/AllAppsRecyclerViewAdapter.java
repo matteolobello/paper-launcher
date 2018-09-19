@@ -2,7 +2,7 @@ package com.matteolobello.launcher.ui.adapter.recyclerview;
 
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
-import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.matteolobello.launcher.R;
 import com.matteolobello.launcher.data.loader.ShortcutsLoader;
-import com.matteolobello.launcher.data.model.IconRow;
 import com.matteolobello.launcher.ui.activity.LauncherActivity;
 import com.matteolobello.launcher.util.IconUtil;
 import com.matteolobello.launcher.util.IntentUtil;
@@ -22,155 +21,86 @@ import com.matteolobello.launcher.util.SDKUtil;
 import java.util.HashMap;
 import java.util.List;
 
-public class AllAppsRecyclerViewAdapter extends RecyclerView.Adapter<AllAppsRecyclerViewAdapter.RowOfIconsViewHolder> {
+public class AllAppsRecyclerViewAdapter extends RecyclerView.Adapter<AllAppsRecyclerViewAdapter.ViewHolder> {
 
     private final HashMap<String, Bitmap> iconHashMap = new HashMap<>();
 
     private final LauncherActivity mLauncherActivity;
-    private final List<IconRow> mIconRows;
+    private final List<ApplicationInfo> mApplicationInfoList;
 
-    public AllAppsRecyclerViewAdapter(LauncherActivity launcherActivity, List<IconRow> iconRows) {
+    public AllAppsRecyclerViewAdapter(LauncherActivity launcherActivity, List<ApplicationInfo> applicationInfoList) {
         mLauncherActivity = launcherActivity;
-        mIconRows = iconRows;
+        mApplicationInfoList = applicationInfoList;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_app, parent, false));
     }
 
     @Override
-    public RowOfIconsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RowOfIconsViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_all_apps_row, parent, false));
-    }
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        final ApplicationInfo applicationInfo = mApplicationInfoList.get(position);
 
-    @Override
-    public void onBindViewHolder(final RowOfIconsViewHolder holder, int position) {
-        final IconRow iconRow = mIconRows.get(position);
+        if (applicationInfo == null) {
+            mApplicationInfoList.remove(position);
+            notifyDataSetChanged();
+            return;
+        }
 
-        for (int column = 0; column < LauncherActivity.APP_DRAWER_COLUMNS; column++) {
-            boolean shouldHideIcon = false;
-            ApplicationInfo applicationInfo = null;
-            if (iconRow.getApplicationInfoList().size() <= column) {
-                shouldHideIcon = true;
-            } else {
-                applicationInfo = iconRow.getApplicationInfoList().get(column);
+        holder.itemView.setOnClickListener(view -> {
+            mLauncherActivity.notifyAppLaunch(applicationInfo);
+
+            IntentUtil.launchApp(view, applicationInfo.packageName);
+        });
+
+        holder.itemView.setOnLongClickListener(view -> {
+            if (!SDKUtil.AT_LEAST_N_MR1) {
+                return false;
             }
 
-            View rootView;
-            ImageView imageView;
-            TextView textView;
-            switch (column + 1) {
-                case 1:
-                    rootView = holder.firstIconView;
-                    imageView = ((ImageView) holder.firstIconView.getChildAt(0));
-                    textView = ((TextView) holder.firstIconView.getChildAt(1));
-                    break;
-                case 2:
-                    rootView = holder.secondIconView;
-                    imageView = ((ImageView) holder.secondIconView.getChildAt(0));
-                    textView = ((TextView) holder.secondIconView.getChildAt(1));
-                    break;
-                case 3:
-                    rootView = holder.thirdIconView;
-                    imageView = ((ImageView) holder.thirdIconView.getChildAt(0));
-                    textView = ((TextView) holder.thirdIconView.getChildAt(1));
-                    break;
-                case 4:
-                    rootView = holder.fourthIconView;
-                    imageView = ((ImageView) holder.fourthIconView.getChildAt(0));
-                    textView = ((TextView) holder.fourthIconView.getChildAt(1));
-                    break;
-                case 5:
-                    rootView = holder.fifthIconView;
-                    imageView = ((ImageView) holder.fifthIconView.getChildAt(0));
-                    textView = ((TextView) holder.fifthIconView.getChildAt(1));
-                    break;
-                default:
-                    throw new UnsupportedOperationException("Unknown column index");
+            try {
+                mLauncherActivity.showShortcutsBottomSheet(applicationInfo.packageName,
+                        ShortcutsLoader.loadShortcuts(mLauncherActivity, applicationInfo.packageName));
+            } catch (Exception e) {
+                Toast.makeText(mLauncherActivity, mLauncherActivity.getString(R.string.app_name)
+                        + " is not the default Launcher", Toast.LENGTH_SHORT).show();
+
+                e.printStackTrace();
             }
 
-            if (shouldHideIcon || applicationInfo == null) {
-                if (column == 0) {
-                    mIconRows.remove(position);
-                    removeLastEmptyRowAsap();
-                    break;
-                }
+            return !mLauncherActivity.isExpandingAppDrawer();
+        });
 
-                imageView.setImageDrawable(null);
-                textView.setText(null);
-                rootView.setOnClickListener(null);
+        holder.appNameTextView.setText(applicationInfo.loadLabel(holder.itemView.getContext().getPackageManager()));
 
-                continue;
-            }
-
-            final ApplicationInfo finalApplicationInfo = applicationInfo;
-            rootView.setOnClickListener(view -> {
-                mLauncherActivity.notifyAppLaunch(finalApplicationInfo);
-
-                IntentUtil.launchApp(view, finalApplicationInfo.packageName);
-            });
-
-            rootView.setOnLongClickListener(view -> {
-                if (!SDKUtil.AT_LEAST_N_MR1) {
-                    return false;
-                }
-
-                try {
-                    mLauncherActivity.showShortcutsBottomSheet(finalApplicationInfo.packageName,
-                            ShortcutsLoader.loadShortcuts(mLauncherActivity, finalApplicationInfo.packageName));
-                } catch (Exception e) {
-                    Toast.makeText(mLauncherActivity, mLauncherActivity.getString(R.string.app_name)
-                            + " is not the default Launcher", Toast.LENGTH_SHORT).show();
-
-                    e.printStackTrace();
-                }
-
-                return !mLauncherActivity.isExpandingAppDrawer();
-            });
-
-            textView.setText(applicationInfo.loadLabel(holder.itemView.getContext().getPackageManager()));
-
-            if (iconHashMap.containsKey(applicationInfo.packageName)) {
-                imageView.setImageBitmap(iconHashMap.get(applicationInfo.packageName));
-                continue;
-            }
-
+        if (iconHashMap.containsKey(applicationInfo.packageName)) {
+            holder.appIconImageView.setImageBitmap(iconHashMap.get(applicationInfo.packageName));
+        } else {
             String packageName = applicationInfo.packageName;
-            Bitmap icon = IconUtil.setIconOnImageView(mLauncherActivity, imageView, applicationInfo);
+            Bitmap icon = IconUtil.setIconOnImageView(mLauncherActivity, holder.appIconImageView, applicationInfo);
 
             iconHashMap.put(packageName, icon);
         }
     }
 
-    private void removeLastEmptyRowAsap() {
-        Handler handler = new Handler();
-        handler.post(() -> {
-            if (!mLauncherActivity.getAppListRecyclerView().isComputingLayout()) {
-                notifyItemRemoved(getItemCount());
-            } else {
-                removeLastEmptyRowAsap();
-            }
-        });
-    }
-
     @Override
     public int getItemCount() {
-        return mIconRows.size();
+        return mApplicationInfoList.size();
     }
 
-    static class RowOfIconsViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ViewGroup firstIconView;
-        ViewGroup secondIconView;
-        ViewGroup thirdIconView;
-        ViewGroup fourthIconView;
-        ViewGroup fifthIconView;
+        ImageView appIconImageView;
+        TextView appNameTextView;
 
-        RowOfIconsViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
-            firstIconView = itemView.findViewById(R.id.first_icon_row);
-            secondIconView = itemView.findViewById(R.id.second_icon_row);
-            thirdIconView = itemView.findViewById(R.id.third_icon_row);
-            fourthIconView = itemView.findViewById(R.id.fourth_icon_row);
-            fifthIconView = itemView.findViewById(R.id.fifth_icon_row);
+            appIconImageView = itemView.findViewById(R.id.app_icon);
+            appNameTextView = itemView.findViewById(R.id.app_name);
         }
     }
 }

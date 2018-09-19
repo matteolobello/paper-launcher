@@ -2,6 +2,7 @@ package com.matteolobello.launcher.ui.fragment.base;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,12 +25,12 @@ public abstract class DockFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.item_dock, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mRootView = view;
@@ -40,7 +41,7 @@ public abstract class DockFragment extends Fragment {
         if (!isAdded()) {
             return;
         }
-        
+
         final ArrayList<String> packageNames = MostLaunchedHelper.get().getMostLaunchedApps(getContext());
 
         iterateOverDockIcons((dockItemView, dockIconColumn) -> {

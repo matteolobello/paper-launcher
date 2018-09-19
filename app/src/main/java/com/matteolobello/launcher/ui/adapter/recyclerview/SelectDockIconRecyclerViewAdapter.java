@@ -1,6 +1,7 @@
 package com.matteolobello.launcher.ui.adapter.recyclerview;
 
 import android.content.pm.ApplicationInfo;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,14 +26,15 @@ public class SelectDockIconRecyclerViewAdapter extends RecyclerView.Adapter<Sele
         mApplicationInfoArrayList = applicationInfoArrayList;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_select_dock_icon, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ApplicationInfo applicationInfo = mApplicationInfoArrayList.get(position);
 
         holder.appTitleTextView.setText(applicationInfo.loadLabel(holder.itemView.getContext().getPackageManager()));

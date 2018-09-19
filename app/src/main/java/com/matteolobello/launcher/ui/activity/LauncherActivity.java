@@ -2,7 +2,7 @@ package com.matteolobello.launcher.ui.activity;
 
 import android.animation.ArgbEvaluator;
 import android.annotation.SuppressLint;
-import android.app.WallpaperManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -30,7 +31,6 @@ import android.widget.TextView;
 import com.matteolobello.launcher.R;
 import com.matteolobello.launcher.data.loader.ApplicationInfoLoader;
 import com.matteolobello.launcher.data.loader.IconPackLoader;
-import com.matteolobello.launcher.data.loader.IconRowsLoader;
 import com.matteolobello.launcher.data.model.IconPack;
 import com.matteolobello.launcher.data.preference.IconPackSelectHelper;
 import com.matteolobello.launcher.data.preference.MostLaunchedHelper;
@@ -45,6 +45,7 @@ import com.matteolobello.launcher.ui.bottomsheet.BottomSheetBehaviorV2;
 import com.matteolobello.launcher.ui.dialog.CustomizationDialog;
 import com.matteolobello.launcher.ui.fragment.HomeScreenDockFragment;
 import com.matteolobello.launcher.ui.view.WorkspaceLayout;
+import com.matteolobello.launcher.util.AppDrawerColumnsCalculator;
 import com.matteolobello.launcher.util.DpPxUtil;
 import com.matteolobello.launcher.util.IconUtil;
 import com.matteolobello.launcher.util.IntentUtil;
@@ -52,6 +53,7 @@ import com.matteolobello.launcher.util.SDKUtil;
 import com.matteolobello.launcher.util.SystemBarUtil;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -215,11 +217,9 @@ public class LauncherActivity extends AppCompatActivity implements
         mShortcutsRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         mShortcutsRecyclerView.setHasFixedSize(true);
 
-        mAllAppsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAllAppsRecyclerView.setItemViewCacheSize(30);
-        mAllAppsRecyclerView.setDrawingCacheEnabled(true);
-        mAllAppsRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        mAllAppsRecyclerView.setHasFixedSize(true);
+        AppDrawerColumnsCalculator appDrawerColumnsCalculator = new AppDrawerColumnsCalculator(this, R.layout.item_app);
+
+        mAllAppsRecyclerView.setLayoutManager(new GridLayoutManager(this, appDrawerColumnsCalculator.calculateNoOfColumns()));
         mAllAppsRecyclerView.setOnScrollListener(mAllAppsRecyclerViewScrollListener);
 
         setAppDrawerData();
@@ -484,6 +484,7 @@ public class LauncherActivity extends AppCompatActivity implements
         }
     }
 
+
     private IconPack fetchCurrentIconPack() {
         HashMap<String, IconPack> iconPackHashMap = IconPackLoader.getAvailableIconPacks(this, false);
         String iconPackPackageName = IconPackSelectHelper.get().getIconPack(this);
@@ -499,7 +500,7 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void setAppDrawerData() {
-        new UpdateAppDrawerAsyncTask().execute();
+        new UpdateAppDrawerAsyncTask(this).execute();
     }
 
     private boolean isAppDrawerOpened() {
@@ -507,6 +508,12 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private class UpdateAppDrawerAsyncTask extends AsyncTask<Void, Void, List<ApplicationInfo>> {
+
+        private final WeakReference mWeakRefContext;
+
+        private UpdateAppDrawerAsyncTask(Context context) {
+            mWeakRefContext = new WeakReference(context);
+        }
 
         @Override
         protected List<ApplicationInfo> doInBackground(Void... voids) {
@@ -520,7 +527,7 @@ public class LauncherActivity extends AppCompatActivity implements
             mApplicationInfoList = applicationInfoList;
 
             mAllAppsRecyclerViewAdapter = new AllAppsRecyclerViewAdapter(LauncherActivity.this,
-                    IconRowsLoader.loadIconRows(mApplicationInfoList));
+                    ApplicationInfoLoader.loadAppList((Context) mWeakRefContext.get()));
             mAllAppsRecyclerView.setAdapter(mAllAppsRecyclerViewAdapter);
 
             mDockViewPagerAdapter.getMostLaunchedAppsDockFragment().dispatchMostLaunchedAppIconsUpdate();

@@ -29,23 +29,23 @@
             android:id="@+id/shortcuts_app_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/shortcuts_app_icon"
             android:layout_toStartOf="@id/shortcuts_app_info"
+            android:layout_toEndOf="@id/shortcuts_app_icon"
             android:ellipsize="end"
-            android:lines="1" />
+            android:lines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/shortcuts_app_info"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="12dp"
-            android:clipToPadding="false"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="24dp"
+            android:clipToPadding="false"
             android:foreground="?android:selectableItemBackgroundBorderless"
+            android:padding="12dp"
             app:srcCompat="@drawable/ic_info_outline"
             app:tint="#696969" />
 
@@ -59,11 +59,11 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/shortcuts_recycler_view"
-        android:paddingTop="@dimen/standard_padding"
-        android:paddingBottom="@dimen/standard_padding"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"
+        android:paddingTop="@dimen/standard_padding"
+        android:paddingBottom="@dimen/standard_padding" />
 
     <View
         android:layout_width="match_parent"

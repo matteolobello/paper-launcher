@@ -13,10 +13,8 @@ import com.matteolobello.launcher.ui.activity.LauncherActivity;
 public class IconUtil {
 
     public static Bitmap setIconOnImageView(LauncherActivity launcherActivity, ImageView imageView, ApplicationInfo applicationInfo) {
-        Bitmap bitmap;
-
         boolean isUsingIconPack = launcherActivity.getCurrentIconPack() != null;
-        bitmap = isUsingIconPack
+        Bitmap bitmap = isUsingIconPack
                 ? launcherActivity.getCurrentIconPack().getIconForPackage(launcherActivity,
                 applicationInfo.packageName, fetchDefaultIcon(launcherActivity, applicationInfo))
                 : fetchDefaultIcon(launcherActivity, applicationInfo);
