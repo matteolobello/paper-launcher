@@ -16,5 +16,6 @@ Android Nougat 7.1 <b>Shortcuts</b> are supported with a new layout that uses th
 <br>
 All the design part is made by <b>Eduardo Pratti</b>, thank you Eduardo!
 <br>
-### [Download](https://play.google.com/store/apps/details?id=com.matteolobello.launcher)
+### [Download on the Play Store](https://play.google.com/store/apps/details?id=com.matteolobello.launcher)
+### [Download latest version on Github](https://github.com/OhMyLob/Paper-Launcher/raw/master/Paper-Laucher_DEBUG.apk)
 
